@@ -9,11 +9,13 @@ public class StunProjectile : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     private bool isHorizontal;
+
+    GameObject camera;
     // Start is called before the first frame update
     void Start()
     {
         rb.velocity = this.transform.forward * speed;
-
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     void OnCollisionEnter(Collision other)
@@ -21,6 +23,7 @@ public class StunProjectile : MonoBehaviour
         if (other.gameObject.tag=="Enemy")
         {
             other.gameObject.SendMessage("Stun", SendMessageOptions.DontRequireReceiver);
+            camera.gameObject.SendMessage("PlayStunShotHit", SendMessageOptions.DontRequireReceiver);
             Destroy(this.gameObject);
         }
         if (other.gameObject.tag=="Walls")

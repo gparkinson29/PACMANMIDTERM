@@ -11,12 +11,13 @@ public class EnemyBehavior : MonoBehaviour
     public GameManager info;
     public GameObject player1;
     public Vector3 playerLocation;
-    public GameObject camera;
+    GameObject camera; // used for audio
 
     private bool chase, flee;
     string nombre; 
 
     int m_CurrentWaypointIndex = 0;
+
 
 
     // Start is called before the first frame update
@@ -30,6 +31,8 @@ public class EnemyBehavior : MonoBehaviour
         nombre = this.tag;
         player1 = GameObject.FindWithTag("Player");
         //playerInfo = player1.GetComponent<Player>();
+
+        camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object
     }
 
     // Update is called once per frame
@@ -47,6 +50,7 @@ public class EnemyBehavior : MonoBehaviour
         if(dist < 5)
         {
             chase = true;
+            camera.gameObject.SendMessage("PlayEnemyAlert", SendMessageOptions.DontRequireReceiver);
         }
         else
         {
@@ -90,7 +94,7 @@ public class EnemyBehavior : MonoBehaviour
         if (cos.gameObject.tag.Equals("Player"))
         {
             Debug.Log("boop");
-            camera.gameObject.SendMessage("PlayEnemyCollision", SendMessageOptions.DontRequireReceiver);
+            //camera.gameObject.SendMessage("PlayEnemyCollision", SendMessageOptions.DontRequireReceiver);   This was a test before collsion could determine who won the clash
             info.checkKill(nombre); 
         }
     }
