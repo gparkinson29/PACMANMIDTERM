@@ -5,8 +5,13 @@ using UnityEngine;
 public class Pellet: MonoBehaviour
 {
 
-    //camera = GameObject.FindGameObjectWithTag("MainCamera");
-    
+    GameObject camera;
+
+    void Start()
+    {
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag=="Player")
@@ -15,7 +20,7 @@ public class Pellet: MonoBehaviour
             other.gameObject.SendMessage("IncreaseTail", SendMessageOptions.DontRequireReceiver);
 
             //send message to play audio for pellet pick up
-           // camera.gameObject.SendMessage("PlayPickUp", SendMessageOptions.DontRequireReceiver);
+           camera.gameObject.SendMessage("PlayPickUp", SendMessageOptions.DontRequireReceiver);
 
         }
     }

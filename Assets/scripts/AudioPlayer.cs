@@ -6,7 +6,12 @@ public class AudioPlayer : MonoBehaviour
 {
     public AudioSource backgroundMusic;
     public AudioSource pickUp;
-    public AudioSource EnemyCollision;
+    public AudioSource EnemyCollisionEnemyWins;
+    public AudioSource EnemyCollisionPlayerWins;
+    public AudioSource WaveChange;
+    public AudioSource EnemyAlert;
+    public AudioSource StunShotHit;
+    public AudioSource StunShotFired;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +32,33 @@ public class AudioPlayer : MonoBehaviour
         pickUp.Play();
     }
 
-    void PlayEnemyCollision()
+    void PlayEnemyCollisionEnemyWins()
     {
-        EnemyCollision.Play();
+        EnemyCollisionEnemyWins.Play();
+    }
+
+    void PlayEnemyCollisionPlayerWins()
+    {
+        EnemyCollisionPlayerWins.Play();
+    }
+
+    void PlayWaveChange()
+    {
+        WaveChange.Play();
+    }
+
+    void PlayEnemyAlert()
+    {
+        EnemyAlert.Play();
+    }
+
+    void PlayStunShotHit()
+    {
+        StunShotHit.Play();
+    }
+
+    void PlayStunShotFired()
+    {
+        StunShotFired.Play();
     }
 }
