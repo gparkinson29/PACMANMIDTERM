@@ -127,13 +127,14 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 500))
         {
-            gm.SetLure(hit.point);
+           
             float distanceToHitPoint = Vector3.Distance(this.transform.position, hit.point);
             if (distanceToHitPoint < 5f)
             {
                 if (ValidateComponentRemoval(2))
                 {
                     DecreaseTail(2);
+                    gm.SetLure(hit.point);
                 }
                 else
                 {
@@ -145,6 +146,7 @@ public class Player : MonoBehaviour
                 if (ValidateComponentRemoval(5))
                 {
                     DecreaseTail(4);
+                    gm.SetLure(hit.point);
                 }
                 else
                 {
@@ -157,6 +159,7 @@ public class Player : MonoBehaviour
                 if (ValidateComponentRemoval(10))
                 {
                     DecreaseTail(8);
+                    gm.SetLure(hit.point);
                 }
                 else
                 {
