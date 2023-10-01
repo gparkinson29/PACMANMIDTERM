@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     public GameObject enemy3spawn;
     public GameObject enemy4spawn;
 
+    GameObject camera;
+
 
     void Awake()
     {
@@ -73,6 +75,8 @@ public class GameManager : MonoBehaviour
         twoenemy2 = GameObject.FindWithTag("enemy2");
         threeenemy3 = GameObject.FindWithTag("enemy3");
         fourenemy4 = GameObject.FindWithTag("enemy4");
+
+        camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object 
 
     }
 
@@ -267,8 +271,9 @@ public class GameManager : MonoBehaviour
         {
 
             waveCounterNum++;
-            advancingWaves(waveCounterNum); 
-            
+            advancingWaves(waveCounterNum);
+            camera.gameObject.SendMessage("PlayWaveChange", SendMessageOptions.DontRequireReceiver);
+
             //SceneManager.LoadScene(0);
         }
     }
@@ -292,11 +297,13 @@ public class GameManager : MonoBehaviour
                     playerInfo.DecreaseTail(enemy1dam);
                     oneenemy1.SetActive(false);
                     aliveEnemies--;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     Debug.Log(aliveEnemies);
                 }
                 else
                 {
                     isHitFront = true;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break;
@@ -307,11 +314,13 @@ public class GameManager : MonoBehaviour
                     playerInfo.DecreaseTail(enemy2dam);
                     twoenemy2.SetActive(false);  
                     aliveEnemies--;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     Debug.Log(aliveEnemies);
                 }
                 else
                 {
                     isHitFront = true;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break;
@@ -322,11 +331,13 @@ public class GameManager : MonoBehaviour
                     playerInfo.DecreaseTail(enemy3dam);
                     threeenemy3.SetActive(false);
                     aliveEnemies--;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     Debug.Log(aliveEnemies);
                 }
                 else
                 {
                     isHitFront = true;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break;
@@ -337,11 +348,13 @@ public class GameManager : MonoBehaviour
                     playerInfo.DecreaseTail(enemy4dam);
                     fourenemy4.SetActive(false);
                     aliveEnemies--;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     Debug.Log(aliveEnemies);
                 }
                 else
                 {
                     isHitFront = true;
+                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break; 

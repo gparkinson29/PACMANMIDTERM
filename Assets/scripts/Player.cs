@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform projectileSpawn;
 
+    GameObject camera;  //Used for Audio
+
     void Awake()
     {
         xInput = 0.0f;
@@ -34,6 +36,8 @@ public class Player : MonoBehaviour
         spacing = 10;
         tailComponents = new List<TailComponent>(10);
         pastPositions = new List<Vector3>(100);
+
+        camera = GameObject.FindGameObjectWithTag("MainCamera");  //assign camera
     }
 
     void Update()
@@ -89,6 +93,7 @@ public class Player : MonoBehaviour
     void OnStun()
     {
         Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
+        camera.gameObject.SendMessage("PlayStunShotFired", SendMessageOptions.DontRequireReceiver); //trigger appropriate audio
     }
 
     void OnDash()
