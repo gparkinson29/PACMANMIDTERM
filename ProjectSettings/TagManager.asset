@@ -9,6 +9,7 @@ TagManager:
   - enemy2
   - enemy3
   - enemy4
+  - Wall
   layers:
   - Default
   - TransparentFX

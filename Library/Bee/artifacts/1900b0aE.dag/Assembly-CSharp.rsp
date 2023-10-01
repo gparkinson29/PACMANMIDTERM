@@ -369,6 +369,7 @@
 "Assets/scripts/HighScoreManager.cs"
 "Assets/scripts/HighScoreMenu.cs"
 "Assets/scripts/MainMenu.cs"
+"Assets/scripts/MenuSounds.cs"
 "Assets/scripts/Pellet.cs"
 "Assets/scripts/Player.cs"
 "Assets/scripts/StunProjectile.cs"

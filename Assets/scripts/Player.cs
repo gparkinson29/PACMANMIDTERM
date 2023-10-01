@@ -18,13 +18,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private string pelletPrefabName;
     [SerializeField]
-    private List<Vector3> pastPositions;
+    public List<Vector3> pastPositions;
     [SerializeField]
     private List<TailComponent> tailComponents;
     [SerializeField]
     private GameObject projectilePrefab;
     [SerializeField]
     private Transform projectileSpawn;
+    private GameManager gm;
 
     GameObject camera;  //Used for Audio
 
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
         pastPositions = new List<Vector3>(100);
 
         camera = GameObject.FindGameObjectWithTag("MainCamera");  //assign camera
+        gm = Camera.main.GetComponent<GameManager>();
     }
 
     void Update()
@@ -55,7 +57,12 @@ public class Player : MonoBehaviour
         movementDirection = new Vector3 (xInput, 0f, zInput);
         nma.Move(movementDirection * Time.deltaTime * nma.speed);
         
-       // transform.rotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+        if(movementDirection != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+        }
+        
+        
 
         if (movementDirection != Vector3.zero)
         {
@@ -94,17 +101,86 @@ public class Player : MonoBehaviour
     {
         Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
         camera.gameObject.SendMessage("PlayStunShotFired", SendMessageOptions.DontRequireReceiver); //trigger appropriate audio
+        DecreaseTail(1);
     }
 
     void OnDash()
     {
+        
+        if (ValidateComponentRemoval(2))
+        {
+            DecreaseTail(2);
+            nma.speed = 8;
+        }
+        else
+        {
+            Debug.LogError("tail length not long enough");
+        }
+
+        
+        StartCoroutine(DashCoroutine());
     }
 
     void OnLure()
     {
+        RaycastHit hit;
 
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 500))
+        {
+            gm.SetLure(hit.point);
+            float distanceToHitPoint = Vector3.Distance(this.transform.position, hit.point);
+            if (distanceToHitPoint < 5f)
+            {
+                if (ValidateComponentRemoval(2))
+                {
+                    DecreaseTail(2);
+                }
+                else
+                {
+                    Debug.Log("tail length not long enough");
+                }
+            }
+            else if (distanceToHitPoint >= 5f && distanceToHitPoint < 10f)
+            {
+                if (ValidateComponentRemoval(5))
+                {
+                    DecreaseTail(4);
+                }
+                else
+                {
+                    Debug.Log("tail length not long enough");
+                }
+
+            }
+            else if (distanceToHitPoint >= 10f)
+            {
+                if (ValidateComponentRemoval(10))
+                {
+                    DecreaseTail(8);
+                }
+                else
+                {
+                    Debug.Log("tail length not long enough");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Point clicked was not on the NavMesh");
+        }
     }
 
+    public bool ValidateComponentRemoval(int amountToRemove)
+    {
+        if (tailLength >= amountToRemove)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     //---Tail Handling Functions---
     void DrawTail()
@@ -124,7 +200,7 @@ public class Player : MonoBehaviour
         int lastTailIndex = tailLength % 10;
         if (tailLength<10)
         {
-            GameObject newTailPellet = (GameObject)Instantiate(Resources.Load(pelletPrefabName));
+            GameObject newTailPellet = (GameObject)Instantiate(Resources.Load(pelletPrefabName), new Vector3(0,-10,0), this.transform.rotation);
             tailComponents.Insert(lastTailIndex, newTailPellet.GetComponent<TailComponent>());
             tailComponents[lastTailIndex].GetComponentValue();
             
@@ -189,5 +265,6 @@ public class Player : MonoBehaviour
     IEnumerator DashCoroutine()
     {
         yield return new WaitForSeconds(5f);
+        nma.speed = 5; 
     }
 }

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     private bool isPlayerAlive;
     private int waveCounterNum;
     private int aliveEnemies;
+    public List<EnemyBehavior> enemies;
 
 
     public GameObject thePauseMenu; 
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     public GameObject enemy4spawn;
 
     GameObject camera;
+    
 
 
     void Awake()
@@ -76,6 +78,11 @@ public class GameManager : MonoBehaviour
         threeenemy3 = GameObject.FindWithTag("enemy3");
         fourenemy4 = GameObject.FindWithTag("enemy4");
 
+        enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
+        enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
+        enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
+        enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
+
         camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object 
 
     }
@@ -94,8 +101,30 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         nextWave();
-        pauseMenu(); 
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            showMenu = (showMenu) ? false : true;
+        }
+
+        menuCheck();
     }
+
+    void menuCheck()
+        {
+            if (showMenu)
+            {
+                thePauseMenu.SetActive(true);
+                Time.timeScale = 0f;
+            }
+            if (!showMenu)
+            {
+                thePauseMenu.SetActive(false);
+                Time.timeScale = 1f; 
+            }
+        
+        }
+    
 
     void FixedUpdate()
     {
@@ -103,28 +132,9 @@ public class GameManager : MonoBehaviour
         tailCounter.text = "Tail Length: " + playerInfo.tailLength.ToString();
         waveCounter.text = "Wave: " + waveCounterNum.ToString();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-           // showMenu = (showMenu) ? false : true;
-        }
+        
     }
 
-    void pauseMenu()
-    {
-        if (showMenu)
-        {
-            thePauseMenu.SetActive(true);
-            
-        }
-        else
-        {
-            thePauseMenu.SetActive(false);
-        }
-    
-    
-    }
-    
-    
     void SpawnPlayer() //need to make this it's own method because we'll be resetting the player back to the center of the maze between waves
     {
         if (isPlayerAlive == false)
@@ -144,6 +154,14 @@ public class GameManager : MonoBehaviour
         if(playerInfo.tailLength > 0)
         {
             hasNoTail = false; 
+        }
+    }
+
+    public void SetLure(Vector3 positionToMove)
+    {
+        for (int i = 0; i < aliveEnemies; i++)
+        {
+            enemies[i].Lure(positionToMove);
         }
     }
 
@@ -167,11 +185,11 @@ public class GameManager : MonoBehaviour
         }
  //   }
 
-    void ReturnToTitle()
+    public void ReturnToTitle()
     {
-        scoreManager.AddNewScore(currentScore, initialsField.text);
-        FileWork.ClearFile(scoreFileName);
-        scoreManager.SaveScores();
+       // scoreManager.AddNewScore(currentScore, initialsField.text);
+       // FileWork.ClearFile(scoreFileName);
+       // scoreManager.SaveScores();
         SceneManager.LoadScene(0);
     }
 

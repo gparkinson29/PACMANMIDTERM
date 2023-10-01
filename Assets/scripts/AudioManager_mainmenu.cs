@@ -37,17 +37,10 @@ public class AudioManager_mainmenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Game")
+        if (SceneManager.GetActiveScene().name == "SampleScene")
         {
             AudioManager_mainmenu.instance.GetComponent<AudioSource>().Stop();
         }
     }
-    public void HoverSound()
-    {
-        musicSource.PlayOneShot(buttonHover);
-    }
-    public void ClickSound()
-    {
-        musicSource.PlayOneShot(buttonPressed);
-    }
+    
 }
