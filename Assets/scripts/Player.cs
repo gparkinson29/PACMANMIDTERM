@@ -45,15 +45,16 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        if (pastPositions.Count > 201)
+        if (pastPositions.Count > 110)
         {
-            pastPositions.RemoveAt(201);
+            pastPositions.RemoveAt(110);
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
         movementDirection = new Vector3 (xInput, 0f, zInput);
         nma.Move(movementDirection * Time.deltaTime * nma.speed);
         
@@ -99,25 +100,29 @@ public class Player : MonoBehaviour
 
     void OnStun()
     {
-        Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
-        camera.gameObject.SendMessage("PlayStunShotFired", SendMessageOptions.DontRequireReceiver); //trigger appropriate audio
-        DecreaseTail(1);
-    }
-
-    void OnDash()
-    {
-        
-        if (ValidateComponentRemoval(2))
+        if (ValidateComponentRemoval(1))
         {
-            DecreaseTail(2);
-            nma.speed = 8;
+            camera.gameObject.SendMessage("PlayStunShotFired", SendMessageOptions.DontRequireReceiver); //trigger appropriate audio
+            DecreaseTail(1);
+            Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
         }
         else
         {
             Debug.LogError("tail length not long enough");
         }
+    }
 
-        
+    void OnDash()
+    {
+        if (ValidateComponentRemoval(2))
+        {
+            nma.speed = 10;
+            DecreaseTail(2);
+        }
+        else
+        {
+            Debug.LogError("tail length not long enough");
+        }
         StartCoroutine(DashCoroutine());
     }
 
@@ -127,7 +132,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 500))
         {
-           
             float distanceToHitPoint = Vector3.Distance(this.transform.position, hit.point);
             if (distanceToHitPoint < 5f)
             {
@@ -138,7 +142,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("tail length not long enough");
+                    Debug.LogError("tail length not long enough");
                 }
             }
             else if (distanceToHitPoint >= 5f && distanceToHitPoint < 10f)
@@ -150,7 +154,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("tail length not long enough");
+                    Debug.LogError("tail length not long enough");
                 }
 
             }
@@ -163,17 +167,17 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("tail length not long enough");
+                    Debug.LogError("tail length not long enough");
                 }
             }
         }
         else
         {
-            Debug.Log("Point clicked was not on the NavMesh");
+            Debug.LogError("Point clicked was not on the NavMesh");
         }
     }
 
-    public bool ValidateComponentRemoval(int amountToRemove)
+        public bool ValidateComponentRemoval(int amountToRemove)
     {
         if (tailLength >= amountToRemove)
         {
@@ -188,13 +192,14 @@ public class Player : MonoBehaviour
     //---Tail Handling Functions---
     void DrawTail()
     {
-        int index = 1;
+        int offset = 50;
         foreach (TailComponent tc in tailComponents)
         {
-            Vector3 tailSegmentPosition = pastPositions[index * spacing];
-            tc.transform.position = tailSegmentPosition; 
+            int indexToRef = (int)(offset / nma.speed);
+            Vector3 tailSegmentPosition = pastPositions[indexToRef];
+            tc.transform.position = tailSegmentPosition;
             tc.transform.LookAt(tailSegmentPosition);
-            index++;
+            offset += 50;
         }
     }
 

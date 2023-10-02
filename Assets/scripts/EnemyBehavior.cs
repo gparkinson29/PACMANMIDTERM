@@ -13,6 +13,7 @@ public class EnemyBehavior : MonoBehaviour
     public Player playerInfo; 
     public Vector3 playerLocation;
     GameObject camera; // used for audio
+    public bool stunned; //manages enemy states
 
     private bool chase, flee, lured;
     string nombre; 
@@ -32,7 +33,7 @@ public class EnemyBehavior : MonoBehaviour
         nombre = this.tag;
         player1 = GameObject.FindWithTag("Player");
         playerInfo = player1.GetComponent<Player>();
-
+        stunned = false;
         camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object
     }
 
@@ -136,7 +137,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         navMeshAgent.SetDestination(positionToMove);
         lured = true;
-        StartCoroutine(LureCoroutine());
+        StartCoroutine(LureCoroutine(positionToMove));
     }
 
 
@@ -146,10 +147,19 @@ public class EnemyBehavior : MonoBehaviour
         navMeshAgent.speed = 3f;
     }
 
-    IEnumerator LureCoroutine()
+    IEnumerator LureCoroutine(Vector3 positionToMove)
     {
-        yield return new WaitForSeconds(5f);
-        lured = false;
+        while (lured)
+        {
+            if (Vector3.Distance(this.transform.position, positionToMove) < 5f)
+            {
+
+                yield return new WaitForSeconds(1.5f);
+                lured = false;
+                navMeshAgent.ResetPath();
+            }
+            yield return null;
+        }
     }
 
 

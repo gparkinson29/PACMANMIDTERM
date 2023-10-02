@@ -309,73 +309,81 @@ public class GameManager : MonoBehaviour
         switch (tag)
         {
             case "enemy1":
-                if (playerInfo.tailLength >= enemy1dam)
+                if ((playerInfo.tailLength >= enemy1dam) && (!oneenemy1.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 1 down!");
+                    enemies.Remove(oneenemy1.GetComponent<EnemyBehavior>());
                     playerInfo.DecreaseTail(enemy1dam);
-                    oneenemy1.SetActive(false);
+                    Destroy(oneenemy1);
                     aliveEnemies--;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
-                    Debug.Log(aliveEnemies);
+                }
+                else if (oneenemy1.GetComponent<EnemyBehavior>().stunned)
+                {
+
                 }
                 else
                 {
                     isHitFront = true;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break;
             case "enemy2":
-                if (playerInfo.tailLength >= enemy2dam)
+                if ((playerInfo.tailLength >= enemy2dam) && (!twoenemy2.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 2 down!");
+                    enemies.Remove(twoenemy2.GetComponent<EnemyBehavior>());
                     playerInfo.DecreaseTail(enemy2dam);
-                    twoenemy2.SetActive(false);  
+                    Destroy(twoenemy2);
                     aliveEnemies--;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
-                    Debug.Log(aliveEnemies);
+                }
+                else if (twoenemy2.GetComponent<EnemyBehavior>().stunned)
+                {
+
                 }
                 else
                 {
                     isHitFront = true;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break;
             case "enemy3":
-                if(playerInfo.tailLength >= enemy3dam)
+                if ((playerInfo.tailLength >= enemy3dam) && (!threeenemy3.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 3 down!");
+                    enemies.Remove(threeenemy3.GetComponent<EnemyBehavior>());
                     playerInfo.DecreaseTail(enemy3dam);
-                    threeenemy3.SetActive(false);
+                    Destroy(threeenemy3);
                     aliveEnemies--;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
-                    Debug.Log(aliveEnemies);
+                }
+                else if (threeenemy3.GetComponent<EnemyBehavior>().stunned)
+                {
+
                 }
                 else
                 {
                     isHitFront = true;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
                 break;
             case "enemy4":
-                if(playerInfo.tailLength >= enemy4dam)
+                if ((playerInfo.tailLength >= enemy4dam) && (!fourenemy4.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 4 down!");
+                    enemies.Remove(fourenemy4.GetComponent<EnemyBehavior>());
                     playerInfo.DecreaseTail(enemy4dam);
-                    fourenemy4.SetActive(false);
+                    Destroy(fourenemy4);
                     aliveEnemies--;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
-                    Debug.Log(aliveEnemies);
+                }
+                else if (fourenemy4.GetComponent<EnemyBehavior>().stunned)
+                {
+
                 }
                 else
                 {
                     isHitFront = true;
-                    camera.gameObject.SendMessage("PlayEnemyCollisionEnemyWins", SendMessageOptions.DontRequireReceiver);
                     EndGame();
                 }
-                break; 
+                break;
         }
     }
 
