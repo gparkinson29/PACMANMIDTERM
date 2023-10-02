@@ -30,7 +30,10 @@ public class GameManager : MonoBehaviour
     public List<EnemyBehavior> enemies;
     [SerializeField]
     private GameObject errorDialogueBox;
-
+    [SerializeField]
+    private GameObject pelletParent;
+    private Transform[] allPellets;
+    private Transform[] currentPellets;
 
     public GameObject thePauseMenu; 
     public TextMeshProUGUI tailCounter;
@@ -86,7 +89,7 @@ public class GameManager : MonoBehaviour
         enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
         camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object 
-
+        allPellets = pelletParent.GetComponentsInChildren<Transform>(true);
     }
 
     // Start is called before the first frame update
@@ -133,7 +136,8 @@ public class GameManager : MonoBehaviour
         CheckForTail(); 
         tailCounter.text = "Tail Length: " + playerInfo.tailLength.ToString();
         waveCounter.text = "Wave: " + waveCounterNum.ToString();
-
+        UpdatePelletCount();
+        RespawnPellets();
         
     }
 
@@ -159,6 +163,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void UpdatePelletCount()
+    {
+        currentPellets = pelletParent.GetComponentsInChildren<Transform>(false);
+    }
+
     public void SetLure(Vector3 positionToMove)
     {
         for (int i = 0; i < aliveEnemies; i++)
@@ -171,33 +180,60 @@ public class GameManager : MonoBehaviour
     {
         if ((isHitFront) || (isHitBack && hasNoTail))
         {
-        //    isHighScore = scoreManager.CheckForHighScore(currentScore);
-       //     if (isHighScore)
-       //     {
-       //         initialsField.gameObject.SetActive(true);
-       //         initialsField.enabled = true;
-        //        initialsField.ActivateInputField();
-        //        submitHighScoreButton.gameObject.SetActive(true);
-       //     }
-       //     else
-        //    {
-                SceneManager.LoadScene(0);
-            }
-            
-        }
- //   }
+            //    isHighScore = scoreManager.CheckForHighScore(currentScore);
+            //     if (isHighScore)
+            //     {
+            //         initialsField.gameObject.SetActive(true);
+            //         initialsField.enabled = true;
+            //        initialsField.ActivateInputField();
+            //        submitHighScoreButton.gameObject.SetActive(true);
+            //     }
+            //     else
+            //    {
+            //SceneManager.LoadScene(0);
+            //}
 
-    public void ReturnToTitle()
+
+            //play death sound, activate game over screen, start coroutine
+            SceneManager.LoadScene(5);
+
+        }
+           }
+
+        public void ReturnToTitle()
     {
-       // scoreManager.AddNewScore(currentScore, initialsField.text);
-       // FileWork.ClearFile(scoreFileName);
-       // scoreManager.SaveScores();
-        SceneManager.LoadScene(0);
+        // scoreManager.AddNewScore(currentScore, initialsField.text);
+        // FileWork.ClearFile(scoreFileName);
+        // scoreManager.SaveScores();
+
+
+        
+        //SceneManager.LoadScene(0);
+    }
+
+
+    void AddPellets()
+    {
+        
     }
 
     void RespawnPellets()
     {
-
+        if (currentPellets.Length<=enemy4dam)
+        {
+            for (int i = 0; i<5; i++)
+            {
+                int randomIndex = Random.Range(0, allPellets.Length);
+                if (!allPellets[randomIndex].gameObject.activeSelf)
+                {
+                    allPellets[randomIndex].gameObject.SetActive(true);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
     }
 
     void enemyResetPositions()
