@@ -151,15 +151,20 @@ public class EnemyBehavior : MonoBehaviour
     {
         while (lured)
         {
-            if (Vector3.Distance(this.transform.position, positionToMove) < 5f)
+            if (Vector3.Distance(this.transform.position, positionToMove) < 2f)
             {
 
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(0.5f);
                 lured = false;
-                navMeshAgent.ResetPath();
             }
             yield return null;
         }
+    }
+
+
+    public bool GetLured()
+    {
+        return lured;
     }
 
 

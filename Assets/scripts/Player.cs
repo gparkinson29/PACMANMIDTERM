@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     private GameManager gm;
     [SerializeField]
     private AudioSource errorAudio;
+    [SerializeField]
+    private ParticleSystem lureBeacon;
 
     GameObject camera;  //Used for Audio
 
@@ -140,6 +142,7 @@ public class Player : MonoBehaviour
                 if (ValidateComponentRemoval(2))
                 {
                     DecreaseTail(2);
+                    GameObject lure = (GameObject)Instantiate(Resources.Load("Particle Systems/Lure"), hit.point, Quaternion.identity);
                     gm.SetLure(hit.point);
                 }
                 else
@@ -154,6 +157,7 @@ public class Player : MonoBehaviour
                 if (ValidateComponentRemoval(5))
                 {
                     DecreaseTail(4);
+                    GameObject lure = (GameObject)Instantiate(Resources.Load("Particle Systems/Lure"), hit.point, Quaternion.identity);
                     gm.SetLure(hit.point);
                 }
                 else
@@ -169,8 +173,8 @@ public class Player : MonoBehaviour
                 if (ValidateComponentRemoval(10))
                 {
                     DecreaseTail(8);
+                    GameObject lure = (GameObject)Instantiate(Resources.Load("Particle Systems/Lure"), hit.point, Quaternion.identity);
                     gm.SetLure(hit.point);
-                    gm.StartErrorDialogueBox();
                 }
                 else
                 {
@@ -243,9 +247,6 @@ public class Player : MonoBehaviour
             TailComponent deadTailPellet = tailComponents[tailLength - 1];
             tailComponents.Remove(deadTailPellet);
             Destroy(deadTailPellet.gameObject);
-            
-
-            
         }
 
         tailLength--;

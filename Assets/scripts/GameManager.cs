@@ -227,9 +227,12 @@ public class GameManager : MonoBehaviour
                 enemyResetPositions();
                 
                 aliveEnemies = 4;
+                enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
+                enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
+                enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
+                enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
-                
-            
+
                 break; 
             
             case 3:
@@ -242,8 +245,11 @@ public class GameManager : MonoBehaviour
                 enemyResetPositions();
 
                 aliveEnemies = 4;
+                enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
+                enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
+                enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
+                enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
-                
 
                 break; 
             
@@ -257,8 +263,11 @@ public class GameManager : MonoBehaviour
                 enemyResetPositions();
 
                 aliveEnemies = 4;
+                enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
+                enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
+                enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
+                enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
-                
 
                 break;
             
@@ -272,8 +281,11 @@ public class GameManager : MonoBehaviour
                 enemyResetPositions();
 
                 aliveEnemies = 4;
+                enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
+                enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
+                enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
+                enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
-                
 
                 break;
 
@@ -317,7 +329,8 @@ public class GameManager : MonoBehaviour
                     enemies.Remove(oneenemy1.GetComponent<EnemyBehavior>());
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     playerInfo.DecreaseTail(enemy1dam);
-                    Destroy(oneenemy1);
+                    oneenemy1.SetActive(false);
+                    //Destroy(oneenemy1);
                     aliveEnemies--;
                 }
                 else if (oneenemy1.GetComponent<EnemyBehavior>().stunned)
@@ -337,7 +350,8 @@ public class GameManager : MonoBehaviour
                     enemies.Remove(twoenemy2.GetComponent<EnemyBehavior>());
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     playerInfo.DecreaseTail(enemy2dam);
-                    Destroy(twoenemy2);
+                    twoenemy2.SetActive(false);
+                    //Destroy(twoenemy2);
                     aliveEnemies--;
                 }
                 else if (twoenemy2.GetComponent<EnemyBehavior>().stunned)
@@ -357,7 +371,8 @@ public class GameManager : MonoBehaviour
                     enemies.Remove(threeenemy3.GetComponent<EnemyBehavior>());
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     playerInfo.DecreaseTail(enemy3dam);
-                    Destroy(threeenemy3);
+                    threeenemy3.SetActive(false);
+                    //Destroy(threeenemy3);
                     aliveEnemies--;
                 }
                 else if (threeenemy3.GetComponent<EnemyBehavior>().stunned)
@@ -377,7 +392,8 @@ public class GameManager : MonoBehaviour
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     enemies.Remove(fourenemy4.GetComponent<EnemyBehavior>());
                     playerInfo.DecreaseTail(enemy4dam);
-                    Destroy(fourenemy4);
+                    fourenemy4.SetActive(false);
+                    //Destroy(fourenemy4);
                     aliveEnemies--;
                 }
                 else if (fourenemy4.GetComponent<EnemyBehavior>().stunned)
