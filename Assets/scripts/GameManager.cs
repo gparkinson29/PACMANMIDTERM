@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Pellet[] pellets;
     private bool isPlayerAlive;
-    private int waveCounterNum;
+    public static int waveCounterNum;
     private int aliveEnemies;
     public List<EnemyBehavior> enemies;
     [SerializeField]
@@ -152,6 +152,14 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("I'm already alive, dummy!");
+        }
+    }
+
+    void SpawnPellets()
+    {
+        for (int i=0; i<allPellets.Length; i++)
+        {
+            allPellets[i].gameObject.SetActive(true);
         }
     }
 
@@ -331,6 +339,7 @@ public class GameManager : MonoBehaviour
                 break; 
 
         }
+
     }
 
     void nextWave()
@@ -340,8 +349,9 @@ public class GameManager : MonoBehaviour
 
             waveCounterNum++;
             advancingWaves(waveCounterNum);
+            SpawnPellets();
             camera.gameObject.SendMessage("PlayWaveChange", SendMessageOptions.DontRequireReceiver);
-
+            
             //SceneManager.LoadScene(0);
         }
     }
