@@ -14,6 +14,9 @@ public class EnemyBehavior : MonoBehaviour
     public Vector3 playerLocation;
     GameObject camera; // used for audio
     public bool stunned; //manages enemy states
+    private MeshRenderer enemyRenderer;
+    private float enemyRed, enemyGreen, enemyBlue;
+
 
     private bool chase, flee, lured;
     string nombre; 
@@ -35,6 +38,10 @@ public class EnemyBehavior : MonoBehaviour
         playerInfo = player1.GetComponent<Player>();
         stunned = false;
         camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object
+        enemyRenderer = this.gameObject.GetComponent<MeshRenderer>();
+        enemyRed = enemyRenderer.material.color.r;
+        enemyGreen = enemyRenderer.material.color.g;
+        enemyBlue = enemyRenderer.material.color.b;
     }
 
     // Update is called once per frame
@@ -129,7 +136,9 @@ public class EnemyBehavior : MonoBehaviour
     //---Responses to powerups---
     public void Stun()
     {
-        navMeshAgent.speed = 0f;
+        stunned = true;
+        navMeshAgent.radius = 0.1f;
+        enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 0.3f);
         StartCoroutine(StunCoroutine());
     }
 
@@ -144,7 +153,11 @@ public class EnemyBehavior : MonoBehaviour
     IEnumerator StunCoroutine()
     {
         yield return new WaitForSeconds(5f);
-        navMeshAgent.speed = 3f;
+        stunned = false;
+        navMeshAgent.radius = 1f;
+        enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 1f);
+       
+
     }
 
     IEnumerator LureCoroutine(Vector3 positionToMove)
