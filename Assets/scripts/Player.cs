@@ -272,7 +272,7 @@ public class Player : MonoBehaviour
     //---Skill Handling Coroutines---
     IEnumerator DashCoroutine()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         nma.speed = 5; 
     }
 }
