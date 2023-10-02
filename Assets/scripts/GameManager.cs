@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private int waveCounterNum;
     private int aliveEnemies;
     public List<EnemyBehavior> enemies;
+    [SerializeField]
+    private GameObject errorDialogueBox;
 
 
     public GameObject thePauseMenu; 
@@ -385,6 +387,20 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+
+    //---UI---
+    public void StartErrorDialogueBox()
+    {
+        errorDialogueBox.gameObject.SetActive(true);
+        StartCoroutine(DisplayErrorDialogue());
+    }
+
+    IEnumerator DisplayErrorDialogue()
+    {
+        yield return new WaitForSeconds(2f);
+        errorDialogueBox.gameObject.SetActive(false);
     }
 
 }

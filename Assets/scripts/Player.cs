@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform projectileSpawn;
     private GameManager gm;
+    [SerializeField]
+    private AudioSource errorAudio;
 
     GameObject camera;  //Used for Audio
 
@@ -142,7 +144,9 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("tail length not long enough");
+                    Debug.Log("tail length not long enough");
+                    errorAudio.Play();
+                    gm.StartErrorDialogueBox();
                 }
             }
             else if (distanceToHitPoint >= 5f && distanceToHitPoint < 10f)
@@ -154,7 +158,9 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("tail length not long enough");
+                    Debug.Log("tail length not long enough");
+                    errorAudio.Play();
+                    gm.StartErrorDialogueBox();
                 }
 
             }
@@ -164,16 +170,20 @@ public class Player : MonoBehaviour
                 {
                     DecreaseTail(8);
                     gm.SetLure(hit.point);
+                    gm.StartErrorDialogueBox();
                 }
                 else
                 {
-                    Debug.LogError("tail length not long enough");
+                    Debug.Log("tail length not long enough");
+                    errorAudio.Play();
+                    gm.StartErrorDialogueBox();
                 }
             }
         }
         else
         {
-            Debug.LogError("Point clicked was not on the NavMesh");
+            Debug.Log("Point clicked was not on the NavMesh");
+            errorAudio.Play();
         }
     }
 

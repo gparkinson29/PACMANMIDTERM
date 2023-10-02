@@ -4490,6 +4490,7 @@ MonoBehaviour:
   scoreFileName: 
   pellets: []
   enemies: []
+  errorDialogueBox: {fileID: 1593696175}
   thePauseMenu: {fileID: 2027389633}
   tailCounter: {fileID: 2143410979}
   waveCounter: {fileID: 2048061054}
@@ -9526,7 +9527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1593696176
 RectTransform:
   m_ObjectHideFlags: 0
