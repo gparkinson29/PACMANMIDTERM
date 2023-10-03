@@ -131,6 +131,12 @@ public class EnemyBehavior : MonoBehaviour
             //camera.gameObject.SendMessage("PlayEnemyCollision", SendMessageOptions.DontRequireReceiver);   This was a test before collsion could determine who won the clash
             info.checkKill(nombre); 
         }
+        if (cos.gameObject.tag == "Stun") //if the enemy is struck by a stun projectile, call the stun behavior and destroy the stun projectile
+        {
+            camera.gameObject.SendMessage("PlayStunShotHit", SendMessageOptions.DontRequireReceiver);
+            Stun();
+            Destroy(cos.gameObject);
+        }
     }
 
     //---Responses to powerups---

@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
         else
         {
             Debug.LogError("tail length not long enough");
+            gm.StartErrorDialogueBox();
         }
     }
 
@@ -126,6 +127,7 @@ public class Player : MonoBehaviour
         else
         {
             Debug.LogError("tail length not long enough");
+            gm.StartErrorDialogueBox();
         }
         StartCoroutine(DashCoroutine());
     }
