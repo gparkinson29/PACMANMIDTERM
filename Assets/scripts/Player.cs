@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     private AudioSource errorAudio;
     [SerializeField]
     private ParticleSystem lureBeacon;
-
+    private bool hasTail;
     GameObject camera;  //Used for Audio
 
     void Awake()
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
 
         camera = GameObject.FindGameObjectWithTag("MainCamera");  //assign camera
         gm = Camera.main.GetComponent<GameManager>();
+        hasTail = false;
     }
 
     void Update()
@@ -53,21 +54,53 @@ public class Player : MonoBehaviour
         {
             pastPositions.RemoveAt(110);
         }
+
+        if (tailComponents.Count > 0)
+        {
+            hasTail = true;
+        }
+        else
+        {
+            hasTail = false;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        movementDirection = new Vector3 (xInput, 0f, zInput);
-        nma.Move(movementDirection * Time.deltaTime * nma.speed);
-        
-        if(movementDirection != Vector3.zero)
+        if (movementDirection != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            Quaternion newRot = Quaternion.LookRotation(movementDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRot, Time.fixedDeltaTime * 10);
         }
-        
-        
+
+
+
+        //if(movementDirection != Vector3.zero)
+        //{
+        //transform.rotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+        //}
+
+        movementDirection = new Vector3(xInput, 0f, zInput);
+        if (hasTail)
+        {
+            Vector3 toFirstComponent = this.transform.position - tailComponents[0].transform.position;
+            if (Vector3.Dot(movementDirection.normalized, toFirstComponent.normalized) == -1)
+            {
+                movementDirection = Vector3.zero;
+            }
+            else
+            {
+                nma.Move(movementDirection * Time.fixedDeltaTime * nma.speed);
+            }
+        }
+        else
+        {
+            nma.Move(movementDirection * Time.fixedDeltaTime * nma.speed);
+        }
+
+
+
 
         if (movementDirection != Vector3.zero)
         {
@@ -136,8 +169,15 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 500))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, 1<<7))
         {
+            Debug.Log("You clicked on a wall!");
+            errorAudio.Play();
+        }
+        else if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, 1<<8))
+        {
+            Debug.Log(hit.collider.gameObject.layer);
+            Debug.Log(hit.collider.gameObject.name);
             float distanceToHitPoint = Vector3.Distance(this.transform.position, hit.point);
             if (distanceToHitPoint < 5f)
             {

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private string playerPrefabName;
     [SerializeField]
     public bool isHighScore, isGameOver, isHitFront, isHitBack, hasNoTail;
+    public static bool playerDied, playerWon;
     [SerializeField]
     private int currentScore;
     private HighScoreManager scoreManager;
@@ -90,6 +91,8 @@ public class GameManager : MonoBehaviour
 
         camera = GameObject.FindGameObjectWithTag("MainCamera"); // assign camera object 
         allPellets = pelletParent.GetComponentsInChildren<Transform>(true);
+        playerDied = false;
+        playerWon = false;
     }
 
     // Start is called before the first frame update
@@ -200,9 +203,7 @@ public class GameManager : MonoBehaviour
             //    {
             //SceneManager.LoadScene(0);
             //}
-
-
-            //play death sound, activate game over screen, start coroutine
+            playerDied = true;
             SceneManager.LoadScene(5);
 
         }
@@ -335,7 +336,9 @@ public class GameManager : MonoBehaviour
 
             case 6:
 
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(5);
+
+                playerWon = true;
                 break; 
 
         }

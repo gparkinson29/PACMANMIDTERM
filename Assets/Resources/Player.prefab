@@ -138,6 +138,10 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4540444372370245312, guid: 87da3eebf4a89a44199e8467dff834bf, type: 3}
   projectileSpawn: {fileID: 2681809689946807179}
   errorAudio: {fileID: -3189061810867662844}
+  lureBeacon: {fileID: 0}
+  wallsLayer:
+    serializedVersion: 2
+    m_Bits: 4
 --- !u!114 &1463805077380455489
 MonoBehaviour:
   m_ObjectHideFlags: 0
