@@ -70,7 +70,7 @@ public class TailComponent : MonoBehaviour
     {
         if (cos.gameObject.tag.Equals("Player"))
         {
-            Debug.Log("you boned your tail");
+            Debug.Log("you hit your tail");
             info.isHitFront = true;
             info.EndGame();
         }

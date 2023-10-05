@@ -154,7 +154,7 @@ public class Player : MonoBehaviour
     {
         if (ValidateComponentRemoval(2))
         {
-            nma.speed = 10;
+            nma.speed = 6.5f;
             DecreaseTail(2);
         }
         else
@@ -325,7 +325,7 @@ public class Player : MonoBehaviour
     //---Skill Handling Coroutines---
     IEnumerator DashCoroutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         nma.speed = 5; 
     }
 }

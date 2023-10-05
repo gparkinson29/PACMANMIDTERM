@@ -80,6 +80,7 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         else if (flee) { }
+        else if (lured) { }
         else if (!lured && !chase)
         {
             patrol();
@@ -143,26 +144,33 @@ public class EnemyBehavior : MonoBehaviour
     public void Stun()
     {
         stunned = true;
+        navMeshAgent.speed = 1.5f;
         navMeshAgent.radius = 0.1f;
         enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 0.3f);
-        StartCoroutine(StunCoroutine());
+        Collider dan = this.GetComponent<Collider>();
+        dan.enabled = false;
+        StartCoroutine(StunCoroutine(dan));
     }
 
     public void Lure(Vector3 positionToMove)
     {
+        chase = false;
+
         navMeshAgent.SetDestination(positionToMove);
+           
         lured = true;
         StartCoroutine(LureCoroutine(positionToMove));
     }
 
 
-    IEnumerator StunCoroutine()
+    IEnumerator StunCoroutine(Collider cos)
     {
         yield return new WaitForSeconds(5f);
         stunned = false;
         navMeshAgent.radius = 1f;
+        navMeshAgent.speed = 3.5f;
         enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 1f);
-       
+        cos.enabled = true; 
 
     }
 
@@ -173,7 +181,7 @@ public class EnemyBehavior : MonoBehaviour
             if (Vector3.Distance(this.transform.position, positionToMove) < 2f)
             {
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1.25f);
                 lured = false;
             }
             yield return null;

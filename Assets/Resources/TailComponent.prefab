@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7281038166872974458}
   - component: {fileID: -2638978316369018854}
   - component: {fileID: -201741247651900939}
+  - component: {fileID: -7806772279350943966}
   m_Layer: 0
   m_Name: TailComponent
   m_TagString: Untagged
@@ -154,3 +155,19 @@ MonoBehaviour:
   value4Mat: {fileID: 2100000, guid: 7d58f9b95a915c84b85c2be7a08e5fc5, type: 2}
   value5Mat: {fileID: 2100000, guid: 843b37013ca69cf42b36a5b546a545f3, type: 2}
   info: {fileID: 0}
+--- !u!208 &-7806772279350943966
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540444372370245312}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

@@ -36,7 +36,12 @@ public class GameManager : MonoBehaviour
     private Transform[] allPellets;
     private Transform[] currentPellets;
 
-    public GameObject thePauseMenu; 
+    public GameObject thePauseMenu;
+    public GameObject waveMenu;
+    public TextMeshProUGUI enemy1HP;
+    public TextMeshProUGUI enemy2HP;
+    public TextMeshProUGUI enemy3HP;
+    public TextMeshProUGUI enemy4HP; 
     public TextMeshProUGUI tailCounter;
     public TextMeshProUGUI waveCounter; 
     public GameObject player1;
@@ -50,6 +55,7 @@ public class GameManager : MonoBehaviour
     public int enemy3dam;
     public int enemy4dam;
     public bool showMenu;
+    public bool betweenWaves; 
     
     public GameObject enemyJail;
     public GameObject enemy1spawn;
@@ -63,6 +69,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        
         isPlayerAlive = false;
         Debug.Log("I WANT TO LIVE");
         SpawnPlayer();
@@ -72,7 +79,8 @@ public class GameManager : MonoBehaviour
         isHitBack = false;
         hasNoTail = true;
         waveCounterNum = 1;
-        showMenu = false; 
+        showMenu = false;
+         
         // initialsField.enabled = false;
         // initialsField.characterLimit = 3;
 
@@ -102,20 +110,21 @@ public class GameManager : MonoBehaviour
         enemy2dam = 5;
         enemy3dam = 5;
         enemy4dam = 5;
-        aliveEnemies = 4; 
+        aliveEnemies = 4;
+        betweenWaves = true;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        nextWave();
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        wavePause();
+        if (Input.GetKeyDown(KeyCode.P) && betweenWaves)
         {
-            showMenu = (showMenu) ? false : true;
+            betweenWaves = false;
         }
 
-        menuCheck();
+
     }
 
     void menuCheck()
@@ -136,6 +145,16 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        nextWave();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            showMenu = (showMenu) ? false : true;
+        }
+
+        menuCheck();
+
         CheckForTail(); 
         tailCounter.text = "Tail Length: " + playerInfo.tailLength.ToString();
         waveCounter.text = "Wave: " + waveCounterNum.ToString();
@@ -264,7 +283,7 @@ public class GameManager : MonoBehaviour
         {
             case 2:
 
-                enemy1dam = 5;
+                enemy1dam = 6;
                 enemy2dam = 5;
                 enemy3dam = 5;
                 enemy4dam = 6;
@@ -277,6 +296,8 @@ public class GameManager : MonoBehaviour
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
+                betweenWaves = true;
+               // wavePause();
 
                 break; 
             
@@ -295,6 +316,8 @@ public class GameManager : MonoBehaviour
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
+                betweenWaves = true;
+               // wavePause();
 
                 break; 
             
@@ -313,6 +336,8 @@ public class GameManager : MonoBehaviour
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
+                betweenWaves = true; 
+               // wavePause();
 
                 break;
             
@@ -331,6 +356,8 @@ public class GameManager : MonoBehaviour
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
 
+                betweenWaves = true; 
+                //wavePause(); 
 
                 break;
 
@@ -359,10 +386,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void wavePause()
+    {
+
+        enemy1HP.text = "The red enemy has " + enemy1dam.ToString() + " hit points.";
+        enemy2HP.text = "The blue enemy has " + enemy2dam.ToString() + " hit points.";
+        enemy3HP.text = "The orange enemy has " + enemy3dam.ToString() + " hit points.";
+        enemy4HP.text = "The purple enemy has " + enemy4dam.ToString() + " hit points.";
+
+        if (betweenWaves)
+        {
+            Time.timeScale = 0f;
+            waveMenu.SetActive(true);
+            
+        }
+        
+        if(!betweenWaves)
+        {
+            Time.timeScale = 1f;
+            waveMenu.SetActive(false);
+            
+        }
+
+    }
+
     public void tailTime()
     {
         int wish = playerInfo.tailLength/2;
-        playerInfo.DecreaseTail();
+        playerInfo.DecreaseTail(wish);
 
     }
 
