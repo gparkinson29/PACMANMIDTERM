@@ -50,9 +50,9 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        if (pastPositions.Count > 110)
+        if (pastPositions.Count > 210)
         {
-            pastPositions.RemoveAt(110);
+            pastPositions.RemoveAt(210);
         }
 
         if (tailComponents.Count > 0)
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
         if (hasTail)
         {
             Vector3 toFirstComponent = this.transform.position - tailComponents[0].transform.position;
-            if (Vector3.Dot(movementDirection.normalized, toFirstComponent.normalized) == -1)
+            if (Vector3.Dot(movementDirection.normalized, toFirstComponent.normalized) <=-0.5)
             {
                 movementDirection = Vector3.zero;
             }
@@ -248,7 +248,7 @@ public class Player : MonoBehaviour
     //---Tail Handling Functions---
     void DrawTail()
     {
-        int offset = 50;
+        int offset = 80;
         foreach (TailComponent tc in tailComponents)
         {
             int indexToRef = (int)(offset / nma.speed);
