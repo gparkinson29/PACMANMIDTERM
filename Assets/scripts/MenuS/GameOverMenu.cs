@@ -17,6 +17,7 @@ public class GameOverMenu : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        gameOverConditionSound.volume = PlayerPrefs.GetFloat("Volume");
         if (GameManager.playerDied && !GameManager.playerWon)
         {
             endGameStateMsg.text = "You died!";

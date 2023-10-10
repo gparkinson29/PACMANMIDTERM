@@ -6,10 +6,17 @@ public class LureSystem : MonoBehaviour
 {
     private GameManager gm;
     private bool isDoneLuring;
+    private AudioSource lureSFX;
+
+    void Awake()
+    {
+        lureSFX = this.gameObject.GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        lureSFX.volume = PlayerPrefs.GetFloat("Volume");
         gm = Camera.main.GetComponent<GameManager>();
     }
 
