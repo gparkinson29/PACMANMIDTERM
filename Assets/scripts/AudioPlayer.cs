@@ -12,6 +12,7 @@ public class AudioPlayer : MonoBehaviour
     public AudioSource EnemyAlert;
     public AudioSource StunShotHit;
     public AudioSource StunShotFired;
+    public AudioSource eating;
 
     // Start is called before the first frame update
     void Start()
@@ -61,4 +62,11 @@ public class AudioPlayer : MonoBehaviour
     {
         StunShotFired.Play();
     }
+
+    void PlayEating()
+    {
+        eating.Play();
+    }
+
+
 }

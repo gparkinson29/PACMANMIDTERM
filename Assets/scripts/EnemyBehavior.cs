@@ -162,6 +162,14 @@ public class EnemyBehavior : MonoBehaviour
         StartCoroutine(LureCoroutine(positionToMove));
     }
 
+    public void eating()
+    {
+        camera.gameObject.SendMessage("PlayEating", SendMessageOptions.DontRequireReceiver);
+        navMeshAgent.speed = 0f;
+        Collider dan = this.GetComponent<Collider>();
+        dan.enabled = false;
+        StartCoroutine(EatCoroutine(dan));
+    }
 
     IEnumerator StunCoroutine(Collider cos)
     {
@@ -194,7 +202,12 @@ public class EnemyBehavior : MonoBehaviour
         return lured;
     }
 
-
+    IEnumerator EatCoroutine(Collider cos)
+    {
+        yield return new WaitForSeconds(1f);
+        navMeshAgent.speed = 3.5f;
+        cos.enabled = true;
+    }
 
 
 }

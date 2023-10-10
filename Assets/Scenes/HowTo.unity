@@ -771,7 +771,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 43b35623d2933d6439c69fbb690a9f8c, type: 3}
-    m_FontSize: 70
+    m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -1721,7 +1721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000011444, y: -36.792}
+  m_AnchoredPosition: {x: -0.000011444, y: -15.11}
   m_SizeDelta: {x: 530.7499, y: 223.5628}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1992079422
@@ -1746,7 +1746,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 43b35623d2933d6439c69fbb690a9f8c, type: 3}
-    m_FontSize: 20
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1759,17 +1759,19 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Objective:
 
-    Collect 5 pellets to enable killing the enemies! Kill
-    all ghosts to win!
+    Collect pellets to kill the ghosts and use your powerups.
+    stun fires a pellet forwards, dash makes you move faster, and lure redirects
+    the enemy pathing! Kill all ghosts to move on to the next wave!
 
 
     Controls:
 
-    WASD or arrow keys to change directions
+    WASD
+    or arrow keys to change directions. Space to stun, shift to dash, and click on
+    the maze to use the lure!
 
 
-    Pellet
-    Values:'
+    Pellet Values:'
 --- !u!222 &1992079423
 CanvasRenderer:
   m_ObjectHideFlags: 0
