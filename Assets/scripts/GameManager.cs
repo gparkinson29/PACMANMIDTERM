@@ -101,6 +101,8 @@ public class GameManager : MonoBehaviour
         allPellets = pelletParent.GetComponentsInChildren<Transform>(true);
         playerDied = false;
         playerWon = false;
+        betweenWaves = true;
+        
     }
 
     // Start is called before the first frame update
@@ -111,19 +113,26 @@ public class GameManager : MonoBehaviour
         enemy3dam = 5;
         enemy4dam = 5;
         aliveEnemies = 4;
-        betweenWaves = true;
-       
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         wavePause();
-        if (Input.GetKeyDown(KeyCode.P) && betweenWaves)
+        if (Input.GetKeyDown(KeyCode.X) && betweenWaves)
         {
             betweenWaves = false;
+            StartCoroutine(SpawnVFXTimeout(false));
         }
 
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            showMenu = (showMenu) ? false : true;
+        }
+
+        menuCheck();
 
     }
 
@@ -134,10 +143,16 @@ public class GameManager : MonoBehaviour
                 thePauseMenu.SetActive(true);
                 Time.timeScale = 0f;
             }
-            if (!showMenu)
+            if (!showMenu && !betweenWaves)
             {
                 thePauseMenu.SetActive(false);
                 Time.timeScale = 1f; 
+            }
+            if (showMenu && betweenWaves)
+            {
+                waveMenu.SetActive(false);
+                thePauseMenu.SetActive(true);
+                Time.timeScale = 0f;
             }
         
         }
@@ -147,13 +162,6 @@ public class GameManager : MonoBehaviour
     {
 
         nextWave();
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            showMenu = (showMenu) ? false : true;
-        }
-
-        menuCheck();
 
         CheckForTail(); 
         tailCounter.text = "Tail Length: " + playerInfo.tailLength.ToString();
@@ -173,7 +181,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("I'm already alive, dummy!");
+            player1.transform.position = playerSpawnPos.transform.position;
         }
     }
 
@@ -204,6 +212,20 @@ public class GameManager : MonoBehaviour
         {
             enemies[i].Lure(positionToMove);
         }
+    }
+
+    public void SpawnVFXHandler(bool isActive)
+    {
+        for (int i = 0; i < aliveEnemies; i++)
+        {
+            enemies[i].SetSpawnVFXActive(isActive);
+        }
+    }
+
+    IEnumerator SpawnVFXTimeout(bool isActive)
+    {
+        yield return new WaitForSeconds(1f);
+        SpawnVFXHandler(false);
     }
 
     public void EndGame()
@@ -290,12 +312,13 @@ public class GameManager : MonoBehaviour
 
                 enemyResetPositions();
                 
+
                 aliveEnemies = 4;
                 enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
                 enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
-
+                SpawnVFXHandler(true);
                 betweenWaves = true;
                // wavePause();
 
@@ -309,13 +332,14 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 7;
 
                 enemyResetPositions();
+                
 
                 aliveEnemies = 4;
                 enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
                 enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
-
+                SpawnVFXHandler(true);
                 betweenWaves = true;
                // wavePause();
 
@@ -329,13 +353,14 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 9;
 
                 enemyResetPositions();
+                SpawnVFXHandler(true);
 
                 aliveEnemies = 4;
                 enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
                 enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
-
+                SpawnVFXHandler(true);
                 betweenWaves = true; 
                // wavePause();
 
@@ -349,13 +374,14 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 10;
 
                 enemyResetPositions();
+                SpawnVFXHandler(true);
 
                 aliveEnemies = 4;
                 enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
                 enemies.Add(twoenemy2.GetComponent<EnemyBehavior>());
                 enemies.Add(threeenemy3.GetComponent<EnemyBehavior>());
                 enemies.Add(fourenemy4.GetComponent<EnemyBehavior>());
-
+                SpawnVFXHandler(true);
                 betweenWaves = true; 
                 //wavePause(); 
 
@@ -381,6 +407,7 @@ public class GameManager : MonoBehaviour
             advancingWaves(waveCounterNum);
             SpawnPellets();
             camera.gameObject.SendMessage("PlayWaveChange", SendMessageOptions.DontRequireReceiver);
+            SpawnPlayer();
             
             //SceneManager.LoadScene(0);
         }
@@ -388,19 +415,19 @@ public class GameManager : MonoBehaviour
 
     public void wavePause()
     {
-
         enemy1HP.text = "The red enemy has " + enemy1dam.ToString() + " hit points.";
         enemy2HP.text = "The blue enemy has " + enemy2dam.ToString() + " hit points.";
         enemy3HP.text = "The orange enemy has " + enemy3dam.ToString() + " hit points.";
         enemy4HP.text = "The purple enemy has " + enemy4dam.ToString() + " hit points.";
 
-        if (betweenWaves)
+        if (betweenWaves && !showMenu)
         {
-            Time.timeScale = 0f;
             waveMenu.SetActive(true);
+            thePauseMenu.SetActive(false);
+            Time.timeScale = 0f;
+            
             
         }
-        
         if(!betweenWaves)
         {
             Time.timeScale = 1f;
@@ -542,5 +569,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         errorDialogueBox.gameObject.SetActive(false);
     }
+
+
 
 }

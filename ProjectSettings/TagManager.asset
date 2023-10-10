@@ -21,8 +21,8 @@ TagManager:
   - Enemy
   - OutofBounds
   - Floor
-  - 
-  - 
+  - PostProcess
+  - Player
   - 
   - 
   - 

@@ -8,12 +8,12 @@ public class StunProjectile : MonoBehaviour
     [SerializeField]
     private Rigidbody rb;
 
-    GameObject camera;
+    //GameObject camera;
     // Start is called before the first frame update
     void Start()
     {
         rb.velocity = this.transform.forward * speed;
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        //camera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     void OnTriggerEnter(Collider other) //moved to EnemyBehavior, keeping this code commented in case that has any problems 

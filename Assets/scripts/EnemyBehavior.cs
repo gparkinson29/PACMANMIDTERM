@@ -16,6 +16,10 @@ public class EnemyBehavior : MonoBehaviour
     public bool stunned; //manages enemy states
     private MeshRenderer enemyRenderer;
     private float enemyRed, enemyGreen, enemyBlue;
+    [SerializeField]
+    private string stunVFXName;
+    [SerializeField]
+    private Transform spawnVFX, stunnedVFX;
 
 
     private bool chase, flee, lured;
@@ -23,11 +27,15 @@ public class EnemyBehavior : MonoBehaviour
 
     int m_CurrentWaypointIndex = 0;
 
-
+    void Awake()
+    {
+        //SetSpawnVFXActive(true);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        
         m_CurrentWaypointIndex = 0; 
         navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
         chase = false;
@@ -42,10 +50,11 @@ public class EnemyBehavior : MonoBehaviour
         enemyRed = enemyRenderer.material.color.r;
         enemyGreen = enemyRenderer.material.color.g;
         enemyBlue = enemyRenderer.material.color.b;
+        
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         behaviorCheck();
@@ -114,7 +123,7 @@ public class EnemyBehavior : MonoBehaviour
             if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
             {
 
-                int randomnum = Random.Range(0, 4);
+                int randomnum = Random.Range(0, waypoints.Length);
 
                 navMeshAgent.SetDestination(waypoints[randomnum].position);
                 //Debug.Log(randomnum);
@@ -146,7 +155,8 @@ public class EnemyBehavior : MonoBehaviour
         stunned = true;
         navMeshAgent.speed = 1.5f;
         navMeshAgent.radius = 0.1f;
-        enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 0.3f);
+        stunnedVFX.gameObject.SetActive(true);
+        enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 0.2f);
         Collider dan = this.GetComponent<Collider>();
         dan.enabled = false;
         StartCoroutine(StunCoroutine(dan));
@@ -177,6 +187,7 @@ public class EnemyBehavior : MonoBehaviour
         stunned = false;
         navMeshAgent.radius = 1f;
         navMeshAgent.speed = 3.5f;
+        stunnedVFX.gameObject.SetActive(false);
         enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 1f);
         cos.enabled = true; 
 
@@ -202,6 +213,7 @@ public class EnemyBehavior : MonoBehaviour
         return lured;
     }
 
+<<<<<<< HEAD
     IEnumerator EatCoroutine(Collider cos)
     {
         yield return new WaitForSeconds(1f);
@@ -209,5 +221,11 @@ public class EnemyBehavior : MonoBehaviour
         cos.enabled = true;
     }
 
+=======
+    public void SetSpawnVFXActive(bool isActive)
+    {
+        spawnVFX.gameObject.SetActive(isActive);
+    }
+>>>>>>> 40e4b5001e9a788de473082f7c38be45d8019efd
 
 }

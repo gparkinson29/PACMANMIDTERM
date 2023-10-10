@@ -5,7 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField]
+    private AudioSource audioSource;
 
+    void Awake()
+    {
+        if (!PlayerPrefs.HasKey("Volume"))
+        {
+            PlayerPrefs.SetFloat("Volume", 0.5f);
+        }
+        audioSource.volume = PlayerPrefs.GetFloat("Volume");
+    }
 
     //public GameManager gameManager;
 
@@ -41,6 +51,11 @@ public class MainMenu : MonoBehaviour
     public void Back()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Settings()
+    {
+        SceneManager.LoadScene("Settings");
     }
 
 }

@@ -12,11 +12,21 @@ public class AudioPlayer : MonoBehaviour
     public AudioSource EnemyAlert;
     public AudioSource StunShotHit;
     public AudioSource StunShotFired;
+<<<<<<< HEAD
     public AudioSource eating;
+=======
+    [SerializeField]
+    private AudioSource[] allAudio;
+>>>>>>> 40e4b5001e9a788de473082f7c38be45d8019efd
 
     // Start is called before the first frame update
     void Start()
     {
+        allAudio = (AudioSource[])GameObject.FindObjectsOfType(typeof(AudioSource));
+        foreach (AudioSource audio in allAudio)
+        {
+            audio.volume = PlayerPrefs.GetFloat("Volume");
+        }
         
     }
 

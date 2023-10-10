@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     private ParticleSystem lureBeacon;
     private bool hasTail;
     GameObject camera;  //Used for Audio
+    [SerializeField]
+    private Animator anim;
 
     void Awake()
     {
@@ -50,9 +52,9 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        if (pastPositions.Count > 110)
+        if (pastPositions.Count > 210)
         {
-            pastPositions.RemoveAt(110);
+            pastPositions.RemoveAt(210);
         }
 
         if (tailComponents.Count > 0)
@@ -70,8 +72,20 @@ public class Player : MonoBehaviour
     {
         if (movementDirection != Vector3.zero)
         {
+            anim.SetBool("isMoving", true);
             Quaternion newRot = Quaternion.LookRotation(movementDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRot, Time.fixedDeltaTime * 10);
+            lastPosition = currentPosition;
+            currentPosition = this.transform.position;
+            if (lastPosition != currentPosition)
+            {
+                pastPositions.Insert(0, this.transform.position);
+                DrawTail();
+            }
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
         }
 
 
@@ -85,7 +99,7 @@ public class Player : MonoBehaviour
         if (hasTail)
         {
             Vector3 toFirstComponent = this.transform.position - tailComponents[0].transform.position;
-            if (Vector3.Dot(movementDirection.normalized, toFirstComponent.normalized) == -1)
+            if (Vector3.Dot(movementDirection.normalized, toFirstComponent.normalized) <=-0.5)
             {
                 movementDirection = Vector3.zero;
             }
@@ -98,23 +112,6 @@ public class Player : MonoBehaviour
         {
             nma.Move(movementDirection * Time.fixedDeltaTime * nma.speed);
         }
-
-
-
-
-        if (movementDirection != Vector3.zero)
-        {
-            lastPosition = currentPosition;
-            currentPosition = this.transform.position;
-            if (lastPosition!=currentPosition)
-            {
-                pastPositions.Insert(0, this.transform.position);
-                DrawTail();
-            } 
-        }
-        
-
-
     }
 
     //---Collision Handling
@@ -248,7 +245,7 @@ public class Player : MonoBehaviour
     //---Tail Handling Functions---
     void DrawTail()
     {
-        int offset = 50;
+        int offset = 80;
         foreach (TailComponent tc in tailComponents)
         {
             int indexToRef = (int)(offset / nma.speed);
@@ -266,7 +263,7 @@ public class Player : MonoBehaviour
         {
             GameObject newTailPellet = (GameObject)Instantiate(Resources.Load(pelletPrefabName), new Vector3(0,-10,0), this.transform.rotation);
             tailComponents.Insert(lastTailIndex, newTailPellet.GetComponent<TailComponent>());
-            tailComponents[lastTailIndex].GetComponentValue();
+            //tailComponents[lastTailIndex].GetComponentValue();
             
         }
         else
