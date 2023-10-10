@@ -19,7 +19,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField]
     private string stunVFXName;
     [SerializeField]
-    private Transform spawnVFX;
+    private Transform spawnVFX, stunnedVFX;
 
 
     private bool chase, flee, lured;
@@ -29,7 +29,7 @@ public class EnemyBehavior : MonoBehaviour
 
     void Awake()
     {
-        SetSpawnVFXActive(true);
+        //SetSpawnVFXActive(true);
     }
 
     // Start is called before the first frame update
@@ -155,7 +155,8 @@ public class EnemyBehavior : MonoBehaviour
         stunned = true;
         navMeshAgent.speed = 1.5f;
         navMeshAgent.radius = 0.1f;
-        enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 0.3f);
+        stunnedVFX.gameObject.SetActive(true);
+        enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 0.2f);
         Collider dan = this.GetComponent<Collider>();
         dan.enabled = false;
         StartCoroutine(StunCoroutine(dan));
@@ -178,6 +179,7 @@ public class EnemyBehavior : MonoBehaviour
         stunned = false;
         navMeshAgent.radius = 1f;
         navMeshAgent.speed = 3.5f;
+        stunnedVFX.gameObject.SetActive(false);
         enemyRenderer.material.color = new Color(enemyRed, enemyGreen, enemyBlue, 1f);
         cos.enabled = true; 
 
