@@ -5756,6 +5756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpawnPos: {fileID: 1840697784}
   playerPrefabName: robotSphere
+  killerPrefabName: BlueScreen
   isHighScore: 0
   isGameOver: 0
   isHitFront: 0
@@ -5766,6 +5767,7 @@ MonoBehaviour:
   submitHighScoreButton: {fileID: 0}
   scoreFileName: 
   pellets: []
+  aliveEnemies: 0
   enemies: []
   errorDialogueBox: {fileID: 1593696175}
   pelletParent: {fileID: 1093369977}
@@ -13285,7 +13287,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.5703021, y: -3.4964104, z: 0.26448154}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1698148496}
   - {fileID: 1093369978}

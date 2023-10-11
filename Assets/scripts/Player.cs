@@ -57,6 +57,12 @@ public class Player : MonoBehaviour
             pastPositions.RemoveAt(210);
         }
 
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+
         if (tailComponents.Count > 0)
         {
             hasTail = true;
@@ -65,11 +71,7 @@ public class Player : MonoBehaviour
         {
             hasTail = false;
         }
-    }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
         if (movementDirection != Vector3.zero)
         {
             anim.SetBool("isMoving", true);

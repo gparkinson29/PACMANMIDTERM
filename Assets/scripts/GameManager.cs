@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private string playerPrefabName;
     [SerializeField]
+    private string killerPrefabName;
+    [SerializeField]
     public bool isHighScore, isGameOver, isHitFront, isHitBack, hasNoTail;
     public static bool playerDied, playerWon;
     [SerializeField]
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviour
     private Pellet[] pellets;
     private bool isPlayerAlive;
     public static int waveCounterNum;
-    private int aliveEnemies;
+    public int aliveEnemies;
     public List<EnemyBehavior> enemies;
     [SerializeField]
     private GameObject errorDialogueBox;
@@ -115,7 +117,8 @@ public class GameManager : MonoBehaviour
         enemy3dam = 5;
         enemy4dam = 5;
         aliveEnemies = 4;
-        
+
+        blueScreenSpawn(); 
     }
 
     // Update is called once per frame
@@ -302,6 +305,12 @@ public class GameManager : MonoBehaviour
         fourenemy4.SetActive(true);
     }
 
+    void playerResetTail()
+    {
+        playerInfo.DecreaseTail(playerInfo.tailLength);
+        
+    }
+
     void advancingWaves(int tracks)
     {
         switch (tracks)
@@ -314,6 +323,7 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 6;
 
                 enemyResetPositions();
+                playerResetTail();
                 Score.playerScore = Score.playerScore + 100;
 
                 aliveEnemies = 4;
@@ -335,6 +345,7 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 7;
 
                 enemyResetPositions();
+                playerResetTail();
                 Score.playerScore = Score.playerScore + 100;
 
 
@@ -543,6 +554,14 @@ public class GameManager : MonoBehaviour
                     EndGame();
                 }
                 break;
+
+            case "bluescreen":
+
+                isHitFront = true;
+                EndGame(); 
+
+                break;
+        
         }
     }
 
@@ -560,6 +579,21 @@ public class GameManager : MonoBehaviour
         errorDialogueBox.gameObject.SetActive(false);
     }
 
+    public void blueScreenSpawn()
+    {
+        StartCoroutine(blueScreenOfDeath());
+    }
 
+    IEnumerator blueScreenOfDeath()
+    {
+        yield return new WaitForSeconds(10f);
+
+        GameObject bs = (GameObject)Instantiate(Resources.Load(killerPrefabName));
+        bs.transform.position = playerSpawnPos.transform.position;
+    }
+
+    //isPlayerAlive = true; 
+   //         GameObject playerPrefab = (GameObject)Instantiate(Resources.Load(playerPrefabName));
+ //  playerPrefab.transform.position = playerSpawnPos.transform.position;
 
 }
