@@ -18,6 +18,7 @@ public class Pellet: MonoBehaviour
         {
             this.gameObject.SetActive(false);
             other.gameObject.SendMessage("IncreaseTail", SendMessageOptions.DontRequireReceiver);
+            Score.playerScore = Score.playerScore + 5; 
 
             //send message to play audio for pellet pick up
            camera.gameObject.SendMessage("PlayPickUp", SendMessageOptions.DontRequireReceiver);

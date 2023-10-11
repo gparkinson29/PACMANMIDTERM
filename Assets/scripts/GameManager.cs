@@ -43,7 +43,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI enemy3HP;
     public TextMeshProUGUI enemy4HP; 
     public TextMeshProUGUI tailCounter;
-    public TextMeshProUGUI waveCounter; 
+    public TextMeshProUGUI waveCounter;
+    public TextMeshProUGUI scoreCounter; 
     public GameObject player1;
     public GameObject oneenemy1;
     public GameObject twoenemy2;
@@ -69,7 +70,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        
+
+        Score.playerScore = 0; 
         isPlayerAlive = false;
         Debug.Log("I WANT TO LIVE");
         SpawnPlayer();
@@ -166,6 +168,7 @@ public class GameManager : MonoBehaviour
         CheckForTail(); 
         tailCounter.text = "Tail Length: " + playerInfo.tailLength.ToString();
         waveCounter.text = "Wave: " + waveCounterNum.ToString();
+        scoreCounter.text = "Score: " + Score.playerScore.ToString();
         UpdatePelletCount();
         RespawnPellets();
         
@@ -311,7 +314,7 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 6;
 
                 enemyResetPositions();
-                
+                Score.playerScore = Score.playerScore + 100;
 
                 aliveEnemies = 4;
                 enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
@@ -332,7 +335,8 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 7;
 
                 enemyResetPositions();
-                
+                Score.playerScore = Score.playerScore + 100;
+
 
                 aliveEnemies = 4;
                 enemies.Add(oneenemy1.GetComponent<EnemyBehavior>());
@@ -353,6 +357,7 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 9;
 
                 enemyResetPositions();
+                Score.playerScore = Score.playerScore + 100;
                 SpawnVFXHandler(true);
 
                 aliveEnemies = 4;
@@ -374,6 +379,7 @@ public class GameManager : MonoBehaviour
                 enemy4dam = 10;
 
                 enemyResetPositions();
+                Score.playerScore = Score.playerScore + 100;
                 SpawnVFXHandler(true);
 
                 aliveEnemies = 4;
@@ -453,6 +459,7 @@ public class GameManager : MonoBehaviour
                 if ((playerInfo.tailLength >= enemy1dam) && (!oneenemy1.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 1 down!");
+                    Score.playerScore = Score.playerScore + 50;
                     enemies.Remove(oneenemy1.GetComponent<EnemyBehavior>());
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     playerInfo.DecreaseTail(enemy1dam);
@@ -474,6 +481,7 @@ public class GameManager : MonoBehaviour
                 if ((playerInfo.tailLength >= enemy2dam) && (!twoenemy2.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 2 down!");
+                    Score.playerScore = Score.playerScore + 50;
                     enemies.Remove(twoenemy2.GetComponent<EnemyBehavior>());
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     playerInfo.DecreaseTail(enemy2dam);
@@ -495,6 +503,7 @@ public class GameManager : MonoBehaviour
                 if ((playerInfo.tailLength >= enemy3dam) && (!threeenemy3.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 3 down!");
+                    Score.playerScore = Score.playerScore + 50;
                     enemies.Remove(threeenemy3.GetComponent<EnemyBehavior>());
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     playerInfo.DecreaseTail(enemy3dam);
@@ -516,6 +525,7 @@ public class GameManager : MonoBehaviour
                 if ((playerInfo.tailLength >= enemy4dam) && (!fourenemy4.GetComponent<EnemyBehavior>().stunned))
                 {
                     Debug.Log("Enemy 4 down!");
+                    Score.playerScore = Score.playerScore + 50;
                     camera.gameObject.SendMessage("PlayEnemyCollisionPlayerWins", SendMessageOptions.DontRequireReceiver);
                     enemies.Remove(fourenemy4.GetComponent<EnemyBehavior>());
                     playerInfo.DecreaseTail(enemy4dam);
