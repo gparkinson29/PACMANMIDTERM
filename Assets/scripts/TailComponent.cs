@@ -77,25 +77,25 @@ public class TailComponent : MonoBehaviour
         else if (cos.gameObject.tag.Equals("enemy1"))
         {
             Debug.Log("enemy1 contact tail!");
-            info.tailTime(cos.gameObject.tag);
+            info.tailTime();
             
         }
         else if (cos.gameObject.tag.Equals("enemy2"))
         {
             Debug.Log("enemy2 contact tail!");
-            info.tailTime(cos.gameObject.tag);
+            info.tailTime();
             
         }
         else if (cos.gameObject.tag.Equals("enemy3"))
         {
             Debug.Log("enemy3 contact tail!");
-            info.tailTime(cos.gameObject.tag);
+            info.tailTime();
             
         }
         else if (cos.gameObject.tag.Equals("enemy4"))
         {
             Debug.Log("enemy4 contact tail!");
-            info.tailTime(cos.gameObject.tag);
+            info.tailTime();
             
         }
 

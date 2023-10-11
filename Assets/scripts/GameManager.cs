@@ -437,30 +437,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void tailTime(string taggers)
+    public void tailTime()
     {
         int wish = playerInfo.tailLength/2;
-        
-        if(taggers == "enemy1")
-        {
-            enemies[0].eating();
-        }
-        else if (taggers == "enemy2")
-        {
-            enemies[1].eating();
-        }
-        else if (taggers == "enemy3")
-        {
-            enemies[2].eating();
-        }
-        else if (taggers == "enemy4")
-        {
-            enemies[3].eating(); 
-        }
-
         playerInfo.DecreaseTail(wish);
-
-
 
     }
 
